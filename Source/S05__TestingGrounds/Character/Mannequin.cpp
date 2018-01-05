@@ -23,7 +23,7 @@ AMannequin::AMannequin()
 	Arms->CastShadow = false;
 	Arms->RelativeRotation = FRotator(1.9f, -19.19f, 20.f);
 	Arms->RelativeLocation = FVector(-0.5f, -4.4f, -155.7f);
-	
+	UE_LOG(LogTemp, Warning, TEXT("Mannequin Called"));
 }
 
 
@@ -33,15 +33,23 @@ void AMannequin::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (BPGun == NULL)
+	if (BPGun == nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Gun Blueprint is missing"));
+		return;
 	}
-	Gun = GetWorld()->SpawnActor<AGun>(BPGun );
-	Gun->AttachToComponent(Arms, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
-	Gun->AnimInstance = Arms->GetAnimInstance();
+	Gun = GetWorld()->SpawnActor<AGun>(BPGun);
+	if (IsPlayerControlled()) {
+		Gun->AttachToComponent(Arms, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	}
+	else {
+		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_0"));
+	}
 
-	if(InputComponent != NULL){
+	Gun->AnimInstance1P = Arms->GetAnimInstance();
+	Gun->AnimInstance3P = GetMesh()->GetAnimInstance();
+
+	if(InputComponent != nullptr){
 		InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger);
 	}
 }
@@ -62,8 +70,20 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 }
 
+void AMannequin::UnPossessed()
+{
+	Super::UnPossessed();
+	if (!ensure(Gun)) {
+		UE_LOG(LogTemp, Warning, TEXT("Gun is not available"))
+		return;
+	}
+	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_0"));
+}
+
+
 void AMannequin::PullTrigger()
 {
 	Gun->OnFire();
 }
+
 

@@ -48,6 +48,7 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	// Note: The ProjectileClass and the skeletal mesh/anim blueprints for Mesh1P, FP_Gun, and VR_Gun 
 	// are set in the derived blueprint asset named MyCharacter to avoid direct content references in C++.
 
+	UE_LOG(LogTemp, Warning, TEXT("FirstPersonCharacter Called"));
 }
 
 void AFirstPersonCharacter::BeginPlay()
@@ -61,7 +62,7 @@ void AFirstPersonCharacter::BeginPlay()
 	}
 	Gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
 	Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
-	Gun->AnimInstance = Mesh1P->GetAnimInstance();
+	Gun->AnimInstance1P = Mesh1P->GetAnimInstance();
 
 	if (EnableTouchscreenMovement(InputComponent) == false)
 	{

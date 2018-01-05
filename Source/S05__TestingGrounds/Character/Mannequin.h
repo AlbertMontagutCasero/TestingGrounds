@@ -33,6 +33,8 @@ public:
 	UFUNCTION(BluePrintCallable, Category = "Weapon")
 	void PullTrigger();
 
+	virtual void UnPossessed() override;
+
 private:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
