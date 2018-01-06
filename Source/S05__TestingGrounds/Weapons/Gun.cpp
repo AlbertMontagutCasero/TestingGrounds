@@ -16,8 +16,6 @@ AGun::AGun()
 	FP_Gun->bCastDynamicShadow = false;
 	FP_Gun->CastShadow = false;
 	// FP_Gun->SetupAttachment(Mesh1P, TEXT("GripPoint"));
-	FP_Gun->SetupAttachment(RootComponent);
-
 	FP_MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("MuzzleLocation"));
 	FP_MuzzleLocation->SetupAttachment(FP_Gun);
 	FP_MuzzleLocation->SetRelativeLocation(FVector(0.2f, 48.4f, -10.6f));
@@ -71,12 +69,17 @@ void AGun::OnFire()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("FireAnimation1P"));
 		AnimInstance1P->Montage_Play(FireAnimation1P, 1.f);
+	
+	UE_LOG(LogTemp, Warning, TEXT("Fire Animation %s"), (*GetNameSafe(FireAnimation1P)));
+	UE_LOG(LogTemp, Warning, TEXT("Fire Instance %s"), (*GetNameSafe(AnimInstance1P)));
 	}
 
 	if (FireAnimation3P != nullptr && AnimInstance3P != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("FireAnimation3P"));
 		AnimInstance3P->Montage_Play(FireAnimation3P, 1.f);
+		UE_LOG(LogTemp, Warning, TEXT("Fire Animation %s"), (*GetNameSafe(FireAnimation3P)));
+		UE_LOG(LogTemp, Warning, TEXT("Fire Instance %s"), (*GetNameSafe(AnimInstance3P)));
 	}
 }
 

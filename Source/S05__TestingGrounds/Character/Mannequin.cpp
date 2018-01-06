@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Mannequin.h"
-
+#include "../Weapons/Gun.h"
 
 
 // Sets default values
@@ -65,9 +65,6 @@ void AMannequin::Tick(float DeltaTime)
 void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	
-
 }
 
 void AMannequin::UnPossessed()
