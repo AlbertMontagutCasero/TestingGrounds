@@ -67,19 +67,12 @@ void AGun::OnFire()
 	// try and play a firing animation if specified
 	if (FireAnimation1P != nullptr && AnimInstance1P!= nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("FireAnimation1P"));
 		AnimInstance1P->Montage_Play(FireAnimation1P, 1.f);
-	
-	UE_LOG(LogTemp, Warning, TEXT("Fire Animation %s"), (*GetNameSafe(FireAnimation1P)));
-	UE_LOG(LogTemp, Warning, TEXT("Fire Instance %s"), (*GetNameSafe(AnimInstance1P)));
 	}
 
 	if (FireAnimation3P != nullptr && AnimInstance3P != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("FireAnimation3P"));
 		AnimInstance3P->Montage_Play(FireAnimation3P, 1.f);
-		UE_LOG(LogTemp, Warning, TEXT("Fire Animation %s"), (*GetNameSafe(FireAnimation3P)));
-		UE_LOG(LogTemp, Warning, TEXT("Fire Instance %s"), (*GetNameSafe(AnimInstance3P)));
 	}
 }
 

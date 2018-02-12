@@ -23,7 +23,6 @@ AMannequin::AMannequin()
 	Arms->CastShadow = false;
 	Arms->RelativeRotation = FRotator(1.9f, -19.19f, 20.f);
 	Arms->RelativeLocation = FVector(-0.5f, -4.4f, -155.7f);
-	UE_LOG(LogTemp, Warning, TEXT("Mannequin Called"));
 }
 
 

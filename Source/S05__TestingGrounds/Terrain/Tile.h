@@ -6,6 +6,20 @@
 #include "GameFramework/Actor.h"
 #include "Tile.generated.h"
 
+
+USTRUCT()
+struct FSpawnPosition
+{
+	GENERATED_USTRUCT_BODY()
+
+	FVector Location;
+	float Rotation;
+	float Scale;
+};
+
+
+class UActorPool;
+
 UCLASS()
 class S05__TESTINGGROUNDS_API ATile : public AActor
 {
@@ -18,15 +32,42 @@ public:
 	// Sets default values for this actor's properties
 	ATile();
 
-	UFUNCTION(BluePrintCallable, Category = "Weapon")
-	void placeActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn);
+	UFUNCTION(BluePrintCallable, Category = "Spawning")
+	void PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn = 1, int MaxSpawn = 1, float Radius = 500, float MinScale = 1, float MaxScale = 1);
+
+
+	UFUNCTION(BluePrintCallable, Category = "Spawning")
+	void PlaceAIPawns(TSubclassOf<APawn> ToSpawn, int MinSpawn = 1, int MaxSpawn = 1, float Radius = 500);
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable, Category = "Pool")
+	void SetPool(UActorPool* Pool);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Navigation")
+	FVector NavigationBoundsOffset;
+	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	FVector MinExtent;
+	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	FVector MaxExtent;
+
+private:
+
+	void PositionNavMeshBoundsVolume();
+	TArray<FSpawnPosition> RandomSpawnPositions(int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale);
+	bool FindEmptyLocation(FVector& OutLocation, float Radius);
+	void PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition SpawnPositon);
+	void PlaceAIPawn(TSubclassOf<APawn> &ToSpawn, FSpawnPosition SpawnPosition);
+
+	bool CanSpawnAtLocation(FVector Location, float radius);
 
 	
+	UActorPool* Pool;
+	AActor* NavMeshBoundsVolume;
 };
