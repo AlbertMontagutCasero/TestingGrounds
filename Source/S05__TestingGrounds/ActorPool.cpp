@@ -19,16 +19,15 @@ AActor * UActorPool::Checkout()
 	{
 		return nullptr;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("[%s] Checkout"), *GetName());
 	return Pool.Pop();
 }
 
-void UActorPool::Return(AActor * ActorToReturn)
+void UActorPool::Return(AActor* ActorToReturn)
 {
 	Add(ActorToReturn);
 }
 
-void UActorPool::Add(AActor * ActorToAdd)
+void UActorPool::Add(AActor* ActorToAdd)
 {
 	Pool.Push(ActorToAdd);
 }
